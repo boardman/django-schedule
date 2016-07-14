@@ -30,7 +30,7 @@ class CalendarManager(models.Manager):
         >>> try:
         ...     Calendar.objects.get_calendar_for_object(user)
         ... except Calendar.DoesNotExist:
-        ...     print "failed"
+        ...     print("failed")
         ...
         failed
 
@@ -53,7 +53,7 @@ class CalendarManager(models.Manager):
         >>> try:
         ...     Calendar.objects.get_calendar_for_object(user)
         ... except AssertionError:
-        ...     print "failed"
+        ...     print("failed")
         ...
         failed
         """
