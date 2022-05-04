@@ -1,7 +1,7 @@
 import datetime
 from django.conf import settings
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.dateformat import format
 from django.conf import settings
 from schedule.conf.settings import CHECK_PERMISSION_FUNC

@@ -4,7 +4,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 import datetime
@@ -225,8 +225,8 @@ class CalendarRelation(models.Model):
     may not scale well.  If you use this, keep that in mind.
     '''
 
-    calendar = models.ForeignKey(Calendar, verbose_name=_("calendar"))
-    content_type = models.ForeignKey(ContentType)
+    calendar = models.ForeignKey(Calendar, verbose_name=_("calendar"), on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.IntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     distinction = models.CharField(_("distinction"), max_length=20, null=True)

@@ -33,8 +33,8 @@ class Migration(migrations.Migration):
                 ('object_id', models.IntegerField()),
                 ('distinction', models.CharField(max_length=20, null=True, verbose_name='distinction')),
                 ('inheritable', models.BooleanField(default=True, verbose_name='inheritable')),
-                ('calendar', models.ForeignKey(verbose_name='calendar', to='schedule.Calendar')),
-                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
+                ('calendar', models.ForeignKey(verbose_name='calendar', to='schedule.Calendar', on_delete=models.CASCADE)),
+                ('content_type', models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'calendar relation',
@@ -51,8 +51,8 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(null=True, verbose_name='description', blank=True)),
                 ('created_on', models.DateTimeField(default=django.utils.timezone.now, verbose_name='created on')),
                 ('end_recurring_period', models.DateTimeField(help_text='This date is ignored for one time only events.', null=True, verbose_name='end recurring period', blank=True)),
-                ('calendar', models.ForeignKey(blank=True, to='schedule.Calendar', null=True)),
-                ('creator', models.ForeignKey(related_name='creator', verbose_name='creator', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('calendar', models.ForeignKey(blank=True, to='schedule.Calendar', null=True, on_delete=models.CASCADE)),
+                ('creator', models.ForeignKey(related_name='creator', verbose_name='creator', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'event',
@@ -65,8 +65,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('object_id', models.IntegerField()),
                 ('distinction', models.CharField(max_length=20, null=True, verbose_name='distinction')),
-                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
-                ('event', models.ForeignKey(verbose_name='event', to='schedule.Event')),
+                ('content_type', models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE)),
+                ('event', models.ForeignKey(verbose_name='event', to='schedule.Event', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'event relation',
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('cancelled', models.BooleanField(default=False, verbose_name='cancelled')),
                 ('original_start', models.DateTimeField(verbose_name='original start')),
                 ('original_end', models.DateTimeField(verbose_name='original end')),
-                ('event', models.ForeignKey(verbose_name='event', to='schedule.Event')),
+                ('event', models.ForeignKey(verbose_name='event', to='schedule.Event', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'occurrence',
@@ -97,7 +97,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=32, verbose_name='name')),
                 ('description', models.TextField(verbose_name='description')),
-                ('frequency', models.CharField(max_length=10, verbose_name='frequency', choices=[(b'YEARLY', 'Yearly'), (b'MONTHLY', 'Monthly'), (b'WEEKLY', 'Weekly'), (b'DAILY', 'Daily'), (b'HOURLY', 'Hourly'), (b'MINUTELY', 'Minutely'), (b'SECONDLY', 'Secondly')])),
+                ('frequency', models.CharField(max_length=10, verbose_name='frequency', choices=[('YEARLY', 'Yearly'), ('MONTHLY', 'Monthly'), ('WEEKLY', 'Weekly'), ('DAILY', 'Daily'), ('HOURLY', 'Hourly'), ('MINUTELY', 'Minutely'), ('SECONDLY', 'Secondly')])),
                 ('params', models.TextField(null=True, verbose_name='params', blank=True)),
             ],
             options={
@@ -108,6 +108,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='rule',
-            field=models.ForeignKey(blank=True, to='schedule.Rule', help_text="Select '----' for a one time only event.", null=True, verbose_name='rule'),
+            field=models.ForeignKey(blank=True, to='schedule.Rule', help_text="Select '----' for a one time only event.", null=True, verbose_name='rule', on_delete=models.CASCADE),
         ),
     ]

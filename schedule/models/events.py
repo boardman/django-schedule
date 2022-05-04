@@ -7,7 +7,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 from django.db.models import Q
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.defaultfilters import date
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.utils import timezone
@@ -34,13 +34,13 @@ class Event(models.Model):
     title = models.CharField(_("title"), max_length=255)
     description = models.TextField(_("description"), null=True, blank=True)
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, verbose_name=_("creator"),
-                                related_name='creator')
+                                related_name='creator', on_delete=models.SET_NULL)
     created_on = models.DateTimeField(_("created on"), default=timezone.now)
     rule = models.ForeignKey(Rule, null=True, blank=True, verbose_name=_("rule"),
-                             help_text=_("Select '----' for a one time only event."))
+                             help_text=_("Select '----' for a one time only event."), on_delete=models.CASCADE)
     end_recurring_period = models.DateTimeField(_("end recurring period"), null=True, blank=True,
                                                 help_text=_("This date is ignored for one time only events."))
-    calendar = models.ForeignKey(Calendar, null=True, blank=True)
+    calendar = models.ForeignKey(Calendar, null=True, blank=True, on_delete=models.CASCADE)
 
     objects = EventManager()
 
@@ -324,8 +324,8 @@ class EventRelation(models.Model):
     DISCLAIMER: while this model is a nice out of the box feature to have, it
     may not scale well.  If you use this keep that in mindself.
     '''
-    event = models.ForeignKey(Event, verbose_name=_("event"))
-    content_type = models.ForeignKey(ContentType)
+    event = models.ForeignKey(Event, verbose_name=_("event"), on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.IntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     distinction = models.CharField(_("distinction"), max_length=20, null=True)
@@ -342,7 +342,7 @@ class EventRelation(models.Model):
 
 
 class Occurrence(models.Model):
-    event = models.ForeignKey(Event, verbose_name=_("event"))
+    event = models.ForeignKey(Event, verbose_name=_("event"), on_delete=models.CASCADE)
     title = models.CharField(_("title"), max_length=255, blank=True, null=True)
     description = models.TextField(_("description"), blank=True, null=True)
     start = models.DateTimeField(_("start"))
