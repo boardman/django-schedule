@@ -6,7 +6,7 @@ from django.utils.dateformat import format
 from django.conf import settings
 from schedule.conf.settings import CHECK_PERMISSION_FUNC
 from schedule.models import Calendar
-from schedule.periods import weekday_names, weekday_abbrs,  Month
+from schedule.periods import weekday_names, weekday_abbrs, Month
 
 register = template.Library()
 

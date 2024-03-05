@@ -1,7 +1,7 @@
 from dateutil.rrule import DAILY, MONTHLY, WEEKLY, YEARLY, HOURLY, MINUTELY, SECONDLY
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 freqs = (("YEARLY", _("Yearly")),
          ("MONTHLY", _("Monthly")),
